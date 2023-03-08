@@ -1,3 +1,3 @@
-# binary_tree_mpr
+# Binary Tree Project
 
-a second year mini project created by Rohit, Harsh, Vikas and Divyansh
+#A Second Year MINI PROJECT created by Rohit, Harsh, Vikas and Divyansh
