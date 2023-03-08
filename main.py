@@ -115,6 +115,25 @@ inorder_button.draw()
 preorder_button.draw()
 postorder_button.draw()
 
+
+# Inserting Input-box and Label using rectangle
+
+text_input = ""
+
+# Define textbox dimensions and position
+textbox_width = 150
+textbox_height = 40
+textbox_position = (1000, 60)
+
+# Define textbox color and border
+textbox_color = (255, 255, 255)
+textbox_border_color = (0, 0, 0)
+textbox_border_width = 2
+
+textbox_rect = pygame.Rect(textbox_position[0], textbox_position[1], textbox_width, textbox_height)
+pygame.draw.rect(screen, textbox_color, textbox_rect)
+
+
 #update using flip
 
 pygame.display.flip()
@@ -143,6 +162,15 @@ while True:
             print('clicked preorder')
         elif event.type==pygame.MOUSEBUTTONDOWN and postorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked postorder')
-
+            
+            
+    # Rendering the Text 
+    pygame.draw.rect(screen, textbox_color, textbox_rect)
+    font = pygame.font.Font('fonts/helvetica/Helvetica_CE_Medium.otf', 30)
+    text_surface = font.render(text_input, True, (0, 0, 0))
+    text_rect = text_surface.get_rect(center=textbox_rect.center)
+    screen.blit(text_surface, text_rect)
+    
+    
     pygame.display.update()
     clock.tick(60)
