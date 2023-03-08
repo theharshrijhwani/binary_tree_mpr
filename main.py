@@ -106,7 +106,7 @@ while True:
             exit()
         elif event.type==pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
-            insert_button.top_color = '#000000'
+            # insert_button.top_color = '#000000'
 
     pygame.display.update()
     clock.tick(60)
