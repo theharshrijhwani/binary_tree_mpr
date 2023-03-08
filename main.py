@@ -130,6 +130,13 @@ while True:
         postorder_button.draw()
         if event.type==pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
+            print(f'{text_input}')
+            text_input = ''
+        elif event.type == pygame.KEYDOWN and textbox_rect.collidepoint(pygame.mouse.get_pos()):
+            if event.unicode.isalnum():
+                text_input += event.unicode
+            elif event.key == pygame.K_BACKSPACE:
+                text_input = text_input[:-1]
         elif event.type==pygame.MOUSEBUTTONDOWN and search_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked search')
         elif event.type==pygame.MOUSEBUTTONDOWN and delete_button.top_rect.collidepoint(pygame.mouse.get_pos()):
