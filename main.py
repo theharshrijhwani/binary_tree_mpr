@@ -104,16 +104,16 @@ screen.blit(title_text_surface, (200, 10))
 
 # drawing buttons
 # insert_button.draw()
-search_button.draw()
-delete_button.draw()
+# search_button.draw()
+# delete_button.draw()
 
 # traversal-heading
 screen.blit(traversal_heading_surface, (1015, 360))
 
 # traversal buttons
-inorder_button.draw()
-preorder_button.draw()
-postorder_button.draw()
+# inorder_button.draw()
+# preorder_button.draw()
+# postorder_button.draw()
 
 
 # Inserting Input-box and Label using rectangle
