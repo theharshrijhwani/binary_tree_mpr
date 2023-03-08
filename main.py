@@ -82,17 +82,17 @@ screen.blit(main_surface, (50, 55))
 screen.blit(title_text_surface, (200, 10))
 
 # drawing buttons
-insert_button.draw()
-search_button.draw()
-delete_button.draw()
+# insert_button.draw()
+# search_button.draw()
+# delete_button.draw()
 
 # traversal-heading
 screen.blit(traversal_heading_surface, (1015, 360))
 
 # traversal buttons
-inorder_button.draw()
-preorder_button.draw()
-postorder_button.draw()
+# inorder_button.draw()
+# preorder_button.draw()
+# postorder_button.draw()
 
 #update using flip
 
@@ -124,7 +124,13 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-        elif event.type == pygame.KEYDOWN and textbox_rect.collidepoint(pygame.mouse.get_pos()):
+        insert_button.draw()
+        search_button.draw()
+        delete_button.draw()
+        inorder_button.draw()
+        preorder_button.draw()
+        postorder_button.draw()
+        if event.type == pygame.KEYDOWN and textbox_rect.collidepoint(pygame.mouse.get_pos()):
             if event.unicode.isalnum():
                 text_input += event.unicode
             elif event.key == pygame.K_BACKSPACE:
