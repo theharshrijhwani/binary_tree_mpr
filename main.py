@@ -94,9 +94,9 @@ delete_button.draw()
 screen.blit(traversal_heading_surface, (1015, 360))
 
 # traversal buttons
-inorder_button.draw()
-preorder_button.draw()
-postorder_button.draw()
+# inorder_button.draw()
+# preorder_button.draw()
+# postorder_button.draw()
 # inorder_button.draw()
 # preorder_button.draw()
 # postorder_button.draw()
