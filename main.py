@@ -107,6 +107,21 @@ while True:
         elif event.type==pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
             # insert_button.top_color = '#000000'
+        elif event.type==pygame.MOUSEBUTTONDOWN and search_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+            print('clicked search')
+            # insert_button.top_color = '#000000'
+        elif event.type==pygame.MOUSEBUTTONDOWN and delete_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+            print('clicked delete')
+            # insert_button.top_color = '#000000'
+        elif event.type==pygame.MOUSEBUTTONDOWN and inorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+            print('clicked inorder')
+            # insert_button.top_color = '#000000'
+        elif event.type==pygame.MOUSEBUTTONDOWN and preorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+            print('clicked preorder')
+            # insert_button.top_color = '#000000'
+        elif event.type==pygame.MOUSEBUTTONDOWN and postorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+            print('clicked postorder')
+            # insert_button.top_color = '#000000'
 
     pygame.display.update()
     clock.tick(60)
