@@ -6,13 +6,20 @@ clock = pygame.time.Clock()
 
 
 class Button:
-    def __init__(self, text, width, height, pos):
+    def __init__(self, text, width, height, pos, elevation):
         # core attributes
         self.pressed = False
+        self.elevation = elevation
+        self.dynamic_elevation = elevation
+        self.original_y = pos[1]
 
-        # top-rect
+        # top-rectangle
         self.top_rect = pygame.Rect((pos), (width, height))
         self.top_color = '#484848'
+        
+        # bottom-rectangle
+        self.bottom_rect = pygame.Rect(pos, (width,elevation))
+        self.bottom_color = '#8C8C8C'
 
         # text
         self.text_surface = button_font.render(text, True, '#FFFFFF')
@@ -20,21 +27,35 @@ class Button:
             center=self.top_rect.center)
 
     def draw(self):
+        # elevation_logic
+        self.top_rect.y = self.original_y - self.dynamic_elevation
+        self.text_rect.center = self.top_rect.center
+        
+        self.bottom_rect.midtop = self.top_rect.midtop
+        self.bottom_rect.height = self.top_rect.height + self.dynamic_elevation
+        
+        pygame.draw.rect(screen, self.bottom_color, self.bottom_rect, border_radius=15)
+        
         pygame.draw.rect(screen, self.top_color,
-                         self.top_rect, border_radius=20)
+                         self.top_rect, border_radius=15)
         screen.blit(self.text_surface, self.text_rect)
         self.check_clicks()
 
     def check_clicks(self):
         mouse_pos = pygame.mouse.get_pos()
         if self.top_rect.collidepoint(mouse_pos):
-            self.top_color = '#2C2C2C'
+            # self.top_color = '#BEBEBE'
             if pygame.mouse.get_pressed()[0]:
                 self.pressed = True
+                self.dynamic_elevation = 0
             else:
+                self.dynamic_elevation = self.elevation
                 if self.pressed == True:
-                    print('clicked')
+                    # print('clicked')
                     self.pressed = False
+        else:
+            self.dynamic_elevation = self.elevation
+            self.top_color = '#484848'
 
 
 # just the screen width and height stored in variables
@@ -62,9 +83,9 @@ button_font = pygame.font.Font('fonts\helvetica\Helvetica_CE_Medium.ttf', 15)
 # creating required buttons
 
 # insert search and delete
-insert_button = Button('Insert', 150, 40, (1000, 140))
-search_button = Button('Search', 150, 40, (1000, 210))
-delete_button = Button('Delete', 150, 40, (1000, 280))
+insert_button = Button('Insert', 150, 40, (1000, 140), 3)
+search_button = Button('Search', 150, 40, (1000, 210), 3)
+delete_button = Button('Delete', 150, 40, (1000, 280), 3)
 
 # traversal heading
 traversal_font = pygame.font.Font('fonts\helvetica\Helvetica_CE_Medium.ttf', 30)
@@ -72,9 +93,9 @@ traversal_heading_surface = traversal_font.render('Traversal', True, '#FFFFFF')
 # tfont_rect = traversal_heading_surface.get_rect(centerx = insert_button.top_rect.centerx) .... failed attempt
 
 # traversal buttons
-inorder_button = Button('InOrder', 150, 40, (1000, 430))
-preorder_button = Button('PreOrder', 150, 40, (1000, 500))
-postorder_button = Button('PostOrder', 150, 40, (1000, 570))
+inorder_button = Button('InOrder', 150, 40, (1000, 430), 3)
+preorder_button = Button('PreOrder', 150, 40, (1000, 500), 3)
+postorder_button = Button('PostOrder', 150, 40, (1000, 570), 3)
 
 # flip
 # main_surface.blit((50,50))
@@ -82,7 +103,7 @@ screen.blit(main_surface, (50, 55))
 screen.blit(title_text_surface, (200, 10))
 
 # drawing buttons
-insert_button.draw()
+# insert_button.draw()
 search_button.draw()
 delete_button.draw()
 
@@ -104,24 +125,24 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-        elif event.type==pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+        insert_button.draw()
+        search_button.draw()
+        delete_button.draw()
+        inorder_button.draw()
+        preorder_button.draw()
+        postorder_button.draw()
+        if event.type==pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
-            # insert_button.top_color = '#000000'
         elif event.type==pygame.MOUSEBUTTONDOWN and search_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked search')
-            # insert_button.top_color = '#000000'
         elif event.type==pygame.MOUSEBUTTONDOWN and delete_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked delete')
-            # insert_button.top_color = '#000000'
         elif event.type==pygame.MOUSEBUTTONDOWN and inorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked inorder')
-            # insert_button.top_color = '#000000'
         elif event.type==pygame.MOUSEBUTTONDOWN and preorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked preorder')
-            # insert_button.top_color = '#000000'
         elif event.type==pygame.MOUSEBUTTONDOWN and postorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked postorder')
-            # insert_button.top_color = '#000000'
 
     pygame.display.update()
     clock.tick(60)
