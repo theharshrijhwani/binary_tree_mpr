@@ -25,7 +25,7 @@ def search_correct_pos(val:int, prev:Node, node: Node):
 level_gap = {1:200, 2:100, 3:50, 4:25}
 
 
-
+prev_coordinates = []
 def give_coordinates(n: Node):
     global root # using root which is global
     n.level = 0
@@ -37,7 +37,9 @@ def give_coordinates(n: Node):
         n.y_pos = 100
         
     else:
-        prev_coordinates = [] # this will store coordinates of previous node
+        while len(prev_coordinates):
+            prev_coordinates.pop()
+        # this will store coordinates of previous node
         return_node = search_correct_pos(val, None, root) # the return_node is first assigned with root node and then it gradually traverses
         n.level = return_node.level+1
         if return_node.val < val:
@@ -50,9 +52,8 @@ def give_coordinates(n: Node):
             n.y_pos = return_node.y_pos + 100
         prev_coordinates.append(return_node.x_pos)
         prev_coordinates.append(return_node.y_pos)
-        
-    binary_tree.append(n)
-    return prev_coordinates
+        return return_node
+    return None
 
 # n1 = Node(10)
 # n2 = Node(50)
