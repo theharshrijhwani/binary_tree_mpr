@@ -6,6 +6,8 @@ import node
 
 pygame.init()
 clock = pygame.time.Clock()
+
+
 class Button:
     def __init__(self, text, width, height, pos, elevation):
         # core attributes
@@ -16,28 +18,31 @@ class Button:
         # top-rectangle
         self.top_rect = pygame.Rect((pos), (width, height))
         self.top_color = '#484848'
-        
+
         # bottom-rectangle
-        self.bottom_rect = pygame.Rect(pos, (width,elevation))
+        self.bottom_rect = pygame.Rect(pos, (width, elevation))
         self.bottom_color = '#8C8C8C'
         # text
         self.text_surface = button_font.render(text, True, '#FFFFFF')
         self.text_rect = self.text_surface.get_rect(
             center=self.top_rect.center)
+
     def draw(self):
         # elevation_logic
         self.top_rect.y = self.original_y - self.dynamic_elevation
         self.text_rect.center = self.top_rect.center
-        
+
         self.bottom_rect.midtop = self.top_rect.midtop
         self.bottom_rect.height = self.top_rect.height + self.dynamic_elevation
-        
-        pygame.draw.rect(screen, self.bottom_color, self.bottom_rect, border_radius=15)
-        
+
+        pygame.draw.rect(screen, self.bottom_color,
+                         self.bottom_rect, border_radius=15)
+
         pygame.draw.rect(screen, self.top_color,
                          self.top_rect, border_radius=15)
         screen.blit(self.text_surface, self.text_rect)
         self.check_clicks()
+
     def check_clicks(self):
         mouse_pos = pygame.mouse.get_pos()
         if self.top_rect.collidepoint(mouse_pos):
@@ -53,6 +58,8 @@ class Button:
         else:
             self.dynamic_elevation = self.elevation
             self.top_color = '#484848'
+
+
 # just the screen width and height stored in variables
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 720
@@ -66,7 +73,8 @@ main_surface = pygame.Surface((900, 600))
 main_surface.fill((66, 66, 66))
 # heading font
 heading_font = pygame.font.Font('fonts\helvetica\Helvetica_CE_Medium.ttf', 35)
-title_text_surface = heading_font.render("Binary Search Tree and Operations", True, (255, 255, 255))
+title_text_surface = heading_font.render(
+    "Binary Search Tree and Operations", True, (255, 255, 255))
 # button font
 button_font = pygame.font.Font('fonts\helvetica\Helvetica_CE_Medium.ttf', 15)
 # creating required buttons
@@ -75,7 +83,8 @@ insert_button = Button('Insert', 150, 40, (1000, 140), 3)
 search_button = Button('Search', 150, 40, (1000, 210), 3)
 delete_button = Button('Delete', 150, 40, (1000, 280), 3)
 # traversal heading
-traversal_font = pygame.font.Font('fonts\helvetica\Helvetica_CE_Medium.ttf', 30)
+traversal_font = pygame.font.Font(
+    'fonts\helvetica\Helvetica_CE_Medium.ttf', 30)
 traversal_heading_surface = traversal_font.render('Traversal', True, '#FFFFFF')
 # tfont_rect = traversal_heading_surface.get_rect(centerx = insert_button.top_rect.centerx) .... failed attempt
 # traversal buttons
@@ -86,6 +95,9 @@ postorder_button = Button('PostOrder', 150, 40, (1000, 570), 3)
 # main_surface.blit((50,50))
 screen.blit(main_surface, (50, 55))
 screen.blit(title_text_surface, (200, 10))
+
+result_font = pygame.font.Font('fonts\helvetica\Helvetica_CE_Medium.ttf', 30)
+result_surface = result_font.render('',True,'#FFFFFF')
 
 # drawing buttons
 # insert_button.draw()
@@ -116,27 +128,45 @@ textbox_position = (1000, 60)
 textbox_color = (255, 255, 255)
 textbox_border_color = (0, 0, 0)
 textbox_border_width = 2
-textbox_rect = pygame.Rect(textbox_position[0], textbox_position[1], textbox_width, textbox_height)
+textbox_rect = pygame.Rect(
+    textbox_position[0], textbox_position[1], textbox_width, textbox_height)
 pygame.draw.rect(screen, textbox_color, textbox_rect)
-#update using flip
+# update using flip
 pygame.display.flip()
 
 # drawing the node
+
+
 def draw_bubble(screen, x, y, radius, label, bg_color):
     # define some colors
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
-    
+
     # draw circle
     pygame.draw.circle(screen, bg_color, (x, y), radius)
-    
+
     # draw label
     font = pygame.font.SysFont(None, 30)
     text = font.render(label, True, WHITE)
     text_rect = text.get_rect(center=(x, y))
     screen.blit(text, text_rect)
 
+
+def search_node(s_node):
+    elapsed_time = 0
+    # s_node = search_node(val)
+    while (elapsed_time <= 10):
+        if(s_node==None):
+            result_surface = result_font.render('Not found',True,'#FFFFFF')
+            screen.blit(result_surface,(50,700))
+        else:
+            if elapsed_time%2==0:
+                draw_bubble(screen, s_node.x_pos, s_node.y_pos,20, str(s_node.val), '#808000')
+            else:
+                draw_bubble(screen, s_node.x_pos, s_node.y_pos,20, str(s_node.val), '#800080')
+        elapsed_time += 1
 # main event loop
+
 
 root = None
 
@@ -152,47 +182,56 @@ while True:
         inorder_button.draw()
         preorder_button.draw()
         postorder_button.draw()
-        if event.type==pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+        if event.type == pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
             print(f'{text_input}')
             n = node.Node(int(text_input))
             prev = node.give_coordinates(n)
-            if(root == None):
+            if (root == None):
                 root = n
             else:
                 print(prev)
-                pygame.draw.line(screen, '#FFFFFF', (prev[0], prev[1]),(n.x_pos, n.y_pos), 2)
-                draw_bubble(screen, prev[0], prev[1], 20, str(prev[2]), '#808000')
-            
+                pygame.draw.line(screen, '#FFFFFF',
+                                 (prev[0], prev[1]), (n.x_pos, n.y_pos), 2)
+                draw_bubble(screen, prev[0], prev[1],
+                            20, str(prev[2]), '#808000')
+
             print(f'X: {n.x_pos}, Y: {n.y_pos}')
             draw_bubble(screen, n.x_pos, n.y_pos, 20, text_input, '#808000')
-            
+
             text_input = ''
-            
+
         elif event.type == pygame.KEYDOWN and textbox_rect.collidepoint(pygame.mouse.get_pos()):
             if event.unicode.isalnum():
                 text_input += event.unicode
             elif event.key == pygame.K_BACKSPACE:
                 text_input = text_input[:-1]
-        elif event.type==pygame.MOUSEBUTTONDOWN and search_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+        elif event.type == pygame.MOUSEBUTTONDOWN and search_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked search')
-        elif event.type==pygame.MOUSEBUTTONDOWN and delete_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+            print(f'{text_input}')
+            # s_node = node.search_node(int(text_input))
+            search_node(node.search_node(int(text_input)))
+
+        elif event.type == pygame.KEYDOWN and textbox_rect.collidepoint(pygame.mouse.get_pos()):
+            if event.unicode.isalnum():
+                text_input += event.unicode
+            elif event.key == pygame.K_BACKSPACE:
+                text_input = text_input[:-1]
+        elif event.type == pygame.MOUSEBUTTONDOWN and delete_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked delete')
-        elif event.type==pygame.MOUSEBUTTONDOWN and inorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+        elif event.type == pygame.MOUSEBUTTONDOWN and inorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked inorder')
-        elif event.type==pygame.MOUSEBUTTONDOWN and preorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+        elif event.type == pygame.MOUSEBUTTONDOWN and preorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked preorder')
-        elif event.type==pygame.MOUSEBUTTONDOWN and postorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+        elif event.type == pygame.MOUSEBUTTONDOWN and postorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked postorder')
-            
-            
-    # Rendering the Text 
+
+    # Rendering the Text
     pygame.draw.rect(screen, textbox_color, textbox_rect)
     font = pygame.font.Font('fonts/helvetica/Helvetica_CE_Medium.otf', 30)
     text_surface = font.render(text_input, True, (0, 0, 0))
     text_rect = text_surface.get_rect(center=textbox_rect.center)
     screen.blit(text_surface, text_rect)
-    
-    
+
     pygame.display.update()
     clock.tick(60)

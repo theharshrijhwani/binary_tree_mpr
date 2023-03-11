@@ -21,6 +21,12 @@ def search_correct_pos(val:int, prev:Node, node: Node):
     else:
         return search_correct_pos(val, node, node.right)
 
+def search_node(val):
+    for i in binary_tree:
+        if i.val == val:
+            return i;
+    return None;
+
 # def get_level(n: Node):
 level_gap = {1:200, 2:100, 3:50, 4:25}
 
