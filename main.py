@@ -160,8 +160,9 @@ while True:
             if(root == None):
                 root = n
             else:
-                pygame.draw.line(screen, '#FFFFFF', (prev.x_pos, prev.y_pos),(n.x_pos, n.y_pos), 2)
-                draw_bubble(screen, prev.x_pos, prev.y_pos, 20, str(prev.val), '#808000')
+                print(prev)
+                pygame.draw.line(screen, '#FFFFFF', (prev[0], prev[1]),(n.x_pos, n.y_pos), 2)
+                draw_bubble(screen, prev[0], prev[1], 20, str(prev[2]), '#808000')
             
             print(f'X: {n.x_pos}, Y: {n.y_pos}')
             draw_bubble(screen, n.x_pos, n.y_pos, 20, text_input, '#808000')

@@ -52,21 +52,7 @@ def give_coordinates(n: Node):
             n.y_pos = return_node.y_pos + 100
         prev_coordinates.append(return_node.x_pos)
         prev_coordinates.append(return_node.y_pos)
-        return return_node
-    return None
+        prev_coordinates.append(return_node.val)
+    binary_tree.append(n)
+    return prev_coordinates
 
-# n1 = Node(10)
-# n2 = Node(50)
-# n3 = Node(5)
-# n4 = Node(100)
-# n5 = Node(75)
-
-
-# give_coordinates(n1)
-# give_coordinates(n2)
-# give_coordinates(n3)
-# give_coordinates(n4)
-# give_coordinates(n5)
-
-for i in binary_tree:
-    print(i.x_pos, i.y_pos)
