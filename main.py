@@ -117,6 +117,10 @@ pygame.draw.rect(screen, textbox_color, textbox_rect)
 #update using flip
 pygame.display.flip()
 # main event loop
+
+root = None
+
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -131,6 +135,11 @@ while True:
         if event.type==pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
             print(f'{text_input}')
+            n = node.Node(int(text_input))
+            node.give_coordinates(n)
+            if(root == None):
+                root = n
+            print(f'X: {n.x_pos}, Y: {n.y_pos}')
             text_input = ''
         elif event.type == pygame.KEYDOWN and textbox_rect.collidepoint(pygame.mouse.get_pos()):
             if event.unicode.isalnum():
