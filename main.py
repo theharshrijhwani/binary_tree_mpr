@@ -156,11 +156,15 @@ while True:
             print('clicked insert')
             print(f'{text_input}')
             n = node.Node(int(text_input))
-            node.give_coordinates(n)
+            prev_coordinates = node.give_coordinates(n)
             if(root == None):
                 root = n
+            else:
+                pygame.draw.line(screen, '#FFFFFF', prev_coordinates[0], prev_coordinates[1], 2)
+            
             print(f'X: {n.x_pos}, Y: {n.y_pos}')
             draw_bubble(screen, n.x_pos, n.y_pos, 20, text_input, '#808000')
+            
             text_input = ''
             
         elif event.type == pygame.KEYDOWN and textbox_rect.collidepoint(pygame.mouse.get_pos()):
