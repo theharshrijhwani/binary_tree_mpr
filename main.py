@@ -1,5 +1,9 @@
+# HAIL ROHIT SHARMA
+
 import pygame
 from sys import exit
+import node
+
 pygame.init()
 clock = pygame.time.Clock()
 class Button:
@@ -116,6 +120,22 @@ textbox_rect = pygame.Rect(textbox_position[0], textbox_position[1], textbox_wid
 pygame.draw.rect(screen, textbox_color, textbox_rect)
 #update using flip
 pygame.display.flip()
+
+# drawing the node
+def draw_bubble(screen, x, y, radius, label, bg_color):
+    # define some colors
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
+    
+    # draw circle
+    pygame.draw.circle(screen, bg_color, (x, y), radius)
+    
+    # draw label
+    font = pygame.font.SysFont(None, 30)
+    text = font.render(label, True, WHITE)
+    text_rect = text.get_rect(center=(x, y))
+    screen.blit(text, text_rect)
+
 # main event loop
 
 root = None
@@ -140,7 +160,9 @@ while True:
             if(root == None):
                 root = n
             print(f'X: {n.x_pos}, Y: {n.y_pos}')
+            draw_bubble(screen, n.x_pos, n.y_pos, 20, text_input, '#808000')
             text_input = ''
+            
         elif event.type == pygame.KEYDOWN and textbox_rect.collidepoint(pygame.mouse.get_pos()):
             if event.unicode.isalnum():
                 text_input += event.unicode

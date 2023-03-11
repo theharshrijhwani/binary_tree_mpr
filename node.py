@@ -29,16 +29,17 @@ def give_coordinates(n: Node):
         root = n
         n.x_pos = FRAME_COORDINATE[0]//2
         n.y_pos = 100
+        
     else:
         return_node = search_correct_pos(val, None, root) # the return_node is first assigned with root node and then it gradually traverses
         if return_node.val < val:
             return_node.right = n
-            n.x_pos = return_node.x_pos + 50
-            n.y_pos = return_node.y_pos + 50
+            n.x_pos = return_node.x_pos + 100
+            n.y_pos = return_node.y_pos + 100
         else:
             return_node.left = n
-            n.x_pos = return_node.x_pos - 50
-            n.y_pos = return_node.y_pos + 50
+            n.x_pos = return_node.x_pos - 100
+            n.y_pos = return_node.y_pos + 100
         
     binary_tree.append(n)
 
