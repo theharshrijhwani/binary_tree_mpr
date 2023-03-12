@@ -1,5 +1,3 @@
-# HAIL ROHIT SHARMA
-
 import pygame
 from sys import exit
 import node
@@ -61,38 +59,50 @@ class Button:
 
 
 # just the screen width and height stored in variables
-SCREEN_WIDTH = 1200
+SCREEN_WIDTH = 1350
 SCREEN_HEIGHT = 720
+
 # setting the title of application window
 pygame.display.set_caption('Binary Tree')
+
 # main display surface which contains animatiion frame, buttons, input bar, etc.
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 screen.fill((33, 33, 33))
+
 # the animation surface
 main_surface = pygame.Surface((900, 600))
 main_surface.fill((66, 66, 66))
+
 # heading font
 heading_font = pygame.font.Font('fonts\helvetica\Helvetica_CE_Medium.ttf', 35)
 title_text_surface = heading_font.render(
     "Binary Search Tree and Operations", True, (255, 255, 255))
+
 # button font
 button_font = pygame.font.Font('fonts\helvetica\Helvetica_CE_Medium.ttf', 15)
+
 # creating required buttons
-# insert search and delete
+
+# insert, search, delete and depth
 insert_button = Button('Insert', 150, 40, (1000, 140), 3)
 search_button = Button('Search', 150, 40, (1000, 210), 3)
 delete_button = Button('Delete', 150, 40, (1000, 280), 3)
+depth_button = Button('Depth',150,40,(1170,140),3)
+
 # traversal heading
 traversal_font = pygame.font.Font(
     'fonts\helvetica\Helvetica_CE_Medium.ttf', 30)
 traversal_heading_surface = traversal_font.render('Traversal', True, '#FFFFFF')
 # tfont_rect = traversal_heading_surface.get_rect(centerx = insert_button.top_rect.centerx) .... failed attempt
+
 # traversal buttons
 inorder_button = Button('InOrder', 150, 40, (1000, 430), 3)
 preorder_button = Button('PreOrder', 150, 40, (1000, 500), 3)
 postorder_button = Button('PostOrder', 150, 40, (1000, 570), 3)
+
 # flip
 # main_surface.blit((50,50))
+
 screen.blit(main_surface, (50, 55))
 screen.blit(title_text_surface, (200, 10))
 
@@ -101,8 +111,8 @@ result_surface = result_font.render('',True,'#FFFFFF')
 
 # drawing buttons
 # insert_button.draw()
-search_button.draw()
-delete_button.draw()
+# search_button.draw()
+# delete_button.draw()
 # search_button.draw()
 # delete_button.draw()
 
@@ -120,10 +130,12 @@ screen.blit(traversal_heading_surface, (1015, 360))
 
 # Inserting Input-box and Label using rectangle
 text_input = ""
+
 # Define textbox dimensions and position
-textbox_width = 150
+textbox_width = 300
 textbox_height = 40
 textbox_position = (1000, 60)
+
 # Define textbox color and border
 textbox_color = (255, 255, 255)
 textbox_border_color = (0, 0, 0)
@@ -131,11 +143,11 @@ textbox_border_width = 2
 textbox_rect = pygame.Rect(
     textbox_position[0], textbox_position[1], textbox_width, textbox_height)
 pygame.draw.rect(screen, textbox_color, textbox_rect)
+
 # update using flip
 pygame.display.flip()
 
 # drawing the node
-
 
 def draw_bubble(screen, x, y, radius, label, bg_color):
     # define some colors
@@ -158,13 +170,21 @@ def search_node(s_node):
     while (elapsed_time <= 10):
         if(s_node==None):
             result_surface = result_font.render('Not found',True,'#FFFFFF')
-            screen.blit(result_surface,(50,700))
+            screen.blit(result_surface,(50,680))
         else:
             if elapsed_time%2==0:
                 draw_bubble(screen, s_node.x_pos, s_node.y_pos,20, str(s_node.val), '#808000')
             else:
                 draw_bubble(screen, s_node.x_pos, s_node.y_pos,20, str(s_node.val), '#800080')
         elapsed_time += 1
+
+def depth(s_node):
+    if(s_node==None):
+        result_surface = result_font.render('Not found', True, '#FFFFFF')
+        screen.blit(result_surface, (50,680))
+    else:
+        result_surface = result_font.render('The depth of node is {}'.format(s_node.level), True, '#FFFFFF')
+        screen.blit(result_surface, (50,680))
 # main event loop
 
 
@@ -182,6 +202,7 @@ while True:
         inorder_button.draw()
         preorder_button.draw()
         postorder_button.draw()
+        depth_button.draw()
         if event.type == pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
             print(f'{text_input}')
@@ -211,7 +232,6 @@ while True:
             print(f'{text_input}')
             # s_node = node.search_node(int(text_input))
             search_node(node.search_node(int(text_input)))
-
         elif event.type == pygame.KEYDOWN and textbox_rect.collidepoint(pygame.mouse.get_pos()):
             if event.unicode.isalnum():
                 text_input += event.unicode
@@ -225,6 +245,11 @@ while True:
             print('clicked preorder')
         elif event.type == pygame.MOUSEBUTTONDOWN and postorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked postorder')
+        elif event.type == pygame.MOUSEBUTTONDOWN and depth_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+            print('clicked depth')
+            print(f'{text_input}')
+            depth(node.search_node(int(text_input)))
+            
 
     # Rendering the Text
     pygame.draw.rect(screen, textbox_color, textbox_rect)
