@@ -174,8 +174,12 @@ def search_node(s_node):
         else:
             if elapsed_time%2==0:
                 draw_bubble(screen, s_node.x_pos, s_node.y_pos,20, str(s_node.val), '#808000')
+                pygame.display.update()
+                pygame.time.delay(500)
             else:
                 draw_bubble(screen, s_node.x_pos, s_node.y_pos,20, str(s_node.val), '#800080')
+                pygame.display.update()
+                pygame.time.delay(500)
         elapsed_time += 1
 
 def depth(s_node):
