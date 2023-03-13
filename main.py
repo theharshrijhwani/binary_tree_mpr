@@ -88,6 +88,7 @@ insert_button = Button('Insert', 150, 40, (1000, 140), 3)
 search_button = Button('Search', 150, 40, (1000, 210), 3)
 delete_button = Button('Delete', 150, 40, (1000, 280), 3)
 depth_button = Button('Depth',150,40,(1170,140),3)
+clear_button = Button('Clear', 150, 40, (1170,210), 3)
 
 # traversal heading
 traversal_font = pygame.font.Font(
@@ -207,6 +208,7 @@ while True:
         preorder_button.draw()
         postorder_button.draw()
         depth_button.draw()
+        clear_button.draw()
         if event.type == pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
             print(f'{text_input}')
@@ -253,6 +255,12 @@ while True:
             print('clicked depth')
             print(f'{text_input}')
             depth(node.search_node(int(text_input)))
+        elif event.type == pygame.MOUSEBUTTONDOWN and clear_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+            root = None
+            node.binary_tree = []
+            # screen.fill((33, 33, 33))
+            main_surface.fill('#424242')
+            
             
 
     # Rendering the Text
