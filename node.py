@@ -13,6 +13,28 @@ root = None
 
 binary_tree = []  # all the nodes will be stored here
 
+def preorder(n:Node, my_list:list):
+    if n == None:
+        return
+    my_list.append(n)
+    preorder(n.left, my_list)
+    preorder(n.right, my_list)
+
+def inorder(n:Node, my_list:list):
+    if n == None:
+        return
+    inorder(n.left, my_list)
+    my_list.append(n)
+    inorder(n.right, my_list)
+
+def postorder(n:Node, my_list:list):
+    if n == None:
+        return
+    preorder(n.left, my_list)
+    preorder(n.right, my_list)
+    my_list.append(n)
+
+   
 def search_correct_pos(val:int, prev:Node, node: Node):
     if node == None:
         return prev
