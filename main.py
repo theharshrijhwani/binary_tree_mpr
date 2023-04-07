@@ -202,6 +202,10 @@ def depth(s_node):
     else:
         result_surface = result_font.render('The depth of node is {}'.format(s_node.level), True, '#FFFFFF')
         screen.blit(result_surface, (50,680))
+        
+def clear_result_surface():
+    result_surface = result_font.render('', True, '#FFFFFF')
+    screen.blit(result_surface, (50,680)) 
 # main event loop
 
 
@@ -293,8 +297,7 @@ while True:
             node.binary_tree = []
             # screen.fill((33, 33, 33))
             main_surface.fill('#424242')
-        result_surface = result_font.render(' ', True, '#FFFFFF')
-        screen.blit(result_surface, (50,680))
+        clear_result_surface()
             
             
 
