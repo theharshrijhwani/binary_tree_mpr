@@ -164,14 +164,17 @@ def draw_bubble(screen, x, y, radius, label, bg_color):
     text_rect = text.get_rect(center=(x, y))
     screen.blit(text, text_rect)
 
-def traverse(node_list:list, idx:int):
+def traverse(node_list:list, idx:int, result_str):
     if idx == len(node_list):
         return
     draw_bubble(screen, node_list[idx].x_pos, node_list[idx].y_pos, 20, str(node_list[idx].val), '#800080')
     pygame.display.update()
     pygame.time.delay(500)
     draw_bubble(screen, node_list[idx].x_pos, node_list[idx].y_pos, 20, str(node_list[idx].val), '#808000')
-    traverse(node_list, idx+1)
+    result_str = result_str + str(node_list[idx].val) + ' '
+    result_surface = result_font.render(result_str, True, "#FFFFFF")
+    screen.blit(result_surface, (50,680))
+    traverse(node_list, idx+1, result_str)
     
     
 def search_node(s_node):
@@ -257,18 +260,30 @@ while True:
         elif event.type == pygame.MOUSEBUTTONDOWN and inorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked inorder')
             node_list = []
+            result_str=''
             node.inorder(root, node_list)
-            traverse(node_list, 0)
+            traverse(node_list, 0, result_str)
+            # pygame.time.delay(3000)
+            # result_surface = result_font.render('', True, '#FFFFFF')
+            # screen.blit(result_surface, (50,680))
         elif event.type == pygame.MOUSEBUTTONDOWN and preorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked preorder')
             node_list = []
+            result_str = ''
             node.preorder(root, node_list)
-            traverse(node_list, 0)
+            traverse(node_list, 0, result_str)
+            # pygame.time.delay(3000)
+            # result_surface = result_font.render('', True, '#FFFFFF')
+            # screen.blit(result_surface, (50,680))
         elif event.type == pygame.MOUSEBUTTONDOWN and postorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked postorder')
             node_list = []
+            result_str=''
             node.postorder(root, node_list)
-            traverse(node_list, 0)
+            traverse(node_list, 0, result_str)
+            # pygame.time.delay(3000)
+            # result_surface = result_font.render('', True, '#FFFFFF')
+            # screen.blit(result_surface, (50,680))
         elif event.type == pygame.MOUSEBUTTONDOWN and depth_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked depth')
             print(f'{text_input}')
@@ -278,6 +293,8 @@ while True:
             node.binary_tree = []
             # screen.fill((33, 33, 33))
             main_surface.fill('#424242')
+        result_surface = result_font.render(' ', True, '#FFFFFF')
+        screen.blit(result_surface, (50,680))
             
             
 
