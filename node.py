@@ -50,7 +50,7 @@ def search_node(val):
     return None;
 
 # def get_level(n: Node):
-level_gap = {1:200, 2:100, 3:50, 4:25}
+level_gap = {1:200, 2:100, 3:50, 4:25, 5: 12, 6: 6, 7 : 3}
 
 
 prev_coordinates = []
