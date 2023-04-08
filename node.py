@@ -30,8 +30,8 @@ def inorder(n:Node, my_list:list):
 def postorder(n:Node, my_list:list):
     if n == None:
         return
-    preorder(n.left, my_list)
-    preorder(n.right, my_list)
+    postorder(n.left, my_list)
+    postorder(n.right, my_list)
     my_list.append(n)
      
 def leaf_node(n:Node, leaf_list:list):
