@@ -33,8 +33,20 @@ def postorder(n:Node, my_list:list):
     preorder(n.left, my_list)
     preorder(n.right, my_list)
     my_list.append(n)
-
-   
+     
+def leaf_node(n:Node, leaf_list:list):
+    if n == None:
+        return
+    
+    if n.left == None and n.right == None:
+        leaf_list.append(n)
+        return
+    
+    if n.left != None:
+        leaf_node(n.left, leaf_list)
+    if n.right != None:    
+        leaf_node(n.right, leaf_list)
+      
 def search_correct_pos(val:int, prev:Node, node: Node):
     if node == None:
         return prev

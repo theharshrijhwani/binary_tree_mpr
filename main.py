@@ -89,6 +89,7 @@ search_button = Button('Search', 150, 40, (1000, 210), 3)
 delete_button = Button('Delete', 150, 40, (1000, 280), 3)
 depth_button = Button('Depth',150,40,(1170,140),3)
 clear_button = Button('Clear', 150, 40, (1170,210), 3)
+leaf_nodes_button = Button('Leaf Nodes', 150, 40, (1170,280), 3)
 
 # traversal heading
 traversal_font = pygame.font.Font(
@@ -180,8 +181,7 @@ def traverse(node_list:list, idx:int, pos_x: int):
     rect_dimensions = pygame.Rect(pos_x, 680, 700, 700)
     pygame.draw.rect(screen, (33, 33, 33),rect_dimensions)
     pygame.display.update()
-    
-    
+       
     
 def search_node(s_node):
     elapsed_time = 0
@@ -236,6 +236,7 @@ while True:
         postorder_button.draw()
         depth_button.draw()
         clear_button.draw()
+        leaf_nodes_button.draw()
         if event.type == pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
             print(f'{text_input}')
@@ -306,7 +307,25 @@ while True:
             # screen.fill((33, 33, 33))
             main_surface.fill('#424242')
             clear_result_surface()
-            
+        elif event.type == pygame.MOUSEBUTTONDOWN and leaf_nodes_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+            print('leaf node count clicked')
+            leaf_list = []
+            node.leaf_node(root, leaf_list)
+            for i in leaf_list:
+                
+                elapsed_time = 0
+                print(i.val)
+                while(elapsed_time<=4):
+                    if elapsed_time%2==0:
+                        draw_bubble(screen, i.x_pos, i.y_pos,20, str(i.val), '#808000')
+                        pygame.display.update()
+                        pygame.time.delay(500)
+                    else:
+                        draw_bubble(screen, i.x_pos, i.y_pos,20, str(i.val), '#800080')
+                        pygame.display.update()
+                        pygame.time.delay(500)
+                    elapsed_time += 1
+                    
             
 
     # Rendering the Text
