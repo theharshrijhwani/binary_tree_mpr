@@ -182,32 +182,22 @@ def traverse(node_list:list, idx:int, pos_x: int):
     pygame.draw.rect(screen, (33, 33, 33),rect_dimensions)
     pygame.display.update()
        
-    
-def search_node(s_node):
-    elapsed_time = 0
-    # s_node = search_node(val)
-    while (elapsed_time <= 10):
-        if(s_node==None):
-            result_surface = result_font.render('Not found',True,'#FFFFFF')
-            screen.blit(result_surface,(50,680))
-        else:
-            if elapsed_time%2==0:
-                draw_bubble(screen, s_node.x_pos, s_node.y_pos,20, str(s_node.val), '#808000')
-                pygame.display.update()
-                pygame.time.delay(500)
-            else:
-                draw_bubble(screen, s_node.x_pos, s_node.y_pos,20, str(s_node.val), '#800080')
-                pygame.display.update()
-                pygame.time.delay(500)
-        elapsed_time += 1
 
 def depth(s_node):
     if(s_node==None):
         result_surface = result_font.render('Not found', True, '#FFFFFF')
         screen.blit(result_surface, (50,680))
+        pygame.display.update()
+        pygame.time.delay(2000)
+        rect_dimensions = pygame.Rect(50, 680, 700, 700)
+        pygame.draw.rect(screen, (33, 33, 33),rect_dimensions)
     else:
         result_surface = result_font.render('The depth of node is {}'.format(s_node.level), True, '#FFFFFF')
         screen.blit(result_surface, (50,680))
+        pygame.display.update()
+        pygame.time.delay(2000)
+        rect_dimensions = pygame.Rect(50, 680, 700, 700)
+        pygame.draw.rect(screen, (33, 33, 33),rect_dimensions)
         
 
 def clear_result_surface():
@@ -216,6 +206,22 @@ def clear_result_surface():
     rect_dimensions = pygame.Rect(50, 55, 900, 600)
     pygame.draw.rect(screen, (66, 66, 66), rect_dimensions)
     pygame.display.update()
+
+
+def blinkLeaf(LeafList: list, idx: int):
+    if idx == len(LeafList)-1:
+        draw_bubble(screen, LeafList[idx].x_pos, LeafList[idx].y_pos, 20, str(LeafList[idx].val), '#800080')
+        pygame.display.flip()
+        pygame.time.delay(1000)
+        return
+    draw_bubble(screen, LeafList[idx].x_pos, LeafList[idx].y_pos, 20, str(LeafList[idx].val), '#800080')
+    pygame.display.flip()
+    pygame.time.delay(700)
+    blinkLeaf(LeafList, idx+1)
+    draw_bubble(screen, LeafList[idx].x_pos, LeafList[idx].y_pos, 20, str(LeafList[idx].val), '#808000')
+    pygame.display.flip()
+    pygame.time.delay(700)
+    pass
 
 # main event loop
 
@@ -240,7 +246,8 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
             print(f'{text_input}')
-            n = node.Node(int(text_input))
+            if text_input:
+                n = node.Node(int(text_input))
             prev = node.give_coordinates(n)
             if (root == None):
                 root = n
@@ -264,8 +271,12 @@ while True:
         elif event.type == pygame.MOUSEBUTTONDOWN and search_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked search')
             print(f'{text_input}')
-            # s_node = node.search_node(int(text_input))
-            search_node(node.search_node(int(text_input)))
+            if text_input:
+                LeafList = []
+                node.search_node_list(root, int(text_input), LeafList)
+                blinkLeaf(LeafList, 0)
+                draw_bubble(screen, LeafList[-1].x_pos, LeafList[-1].y_pos, 20, str(LeafList[-1].val), '#808000')
+                pass
         elif event.type == pygame.KEYDOWN and textbox_rect.collidepoint(pygame.mouse.get_pos()):
             if event.unicode.isalnum():
                 text_input += event.unicode
@@ -273,6 +284,9 @@ while True:
                 text_input = text_input[:-1]
         elif event.type == pygame.MOUSEBUTTONDOWN and delete_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked delete')
+            if text_input:
+                node.deleteNode(root, int(text_input))
+                clear_result_surface()
         elif event.type == pygame.MOUSEBUTTONDOWN and inorder_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked inorder')
             node_list = []
@@ -300,7 +314,8 @@ while True:
         elif event.type == pygame.MOUSEBUTTONDOWN and depth_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked depth')
             print(f'{text_input}')
-            depth(node.search_node(int(text_input)))
+            if text_input:
+                depth(node.search_node(int(text_input)))
         elif event.type == pygame.MOUSEBUTTONDOWN and clear_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             root = None
             node.binary_tree = []
@@ -308,24 +323,14 @@ while True:
             main_surface.fill('#424242')
             clear_result_surface()
         elif event.type == pygame.MOUSEBUTTONDOWN and leaf_nodes_button.top_rect.collidepoint(pygame.mouse.get_pos()):
-            print('leaf node count clicked')
-            leaf_list = []
-            node.leaf_node(root, leaf_list)
-            for i in leaf_list:
-                
-                elapsed_time = 0
-                print(i.val)
-                while(elapsed_time<=4):
-                    if elapsed_time%2==0:
-                        draw_bubble(screen, i.x_pos, i.y_pos,20, str(i.val), '#808000')
-                        pygame.display.update()
-                        pygame.time.delay(500)
-                    else:
-                        draw_bubble(screen, i.x_pos, i.y_pos,20, str(i.val), '#800080')
-                        pygame.display.update()
-                        pygame.time.delay(500)
-                    elapsed_time += 1
-                    
+            LeafList = node.getAllPaths(root)
+            allLastNode = LeafList[-1]
+            LeafList.pop()
+            for ele in LeafList:
+                blinkLeaf(ele, 0)
+            for ele in allLastNode:
+                draw_bubble(screen, ele.x_pos, ele.y_pos, 20, str(ele.val), '#808000')
+                pygame.time.delay(800)
             
 
     # Rendering the Text

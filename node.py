@@ -61,6 +61,67 @@ def search_node(val):
             return i;
     return None;
 
+
+def getPaths(root: Node, paths: list, path: list, allLastNode: list):
+    if root is None:
+        return
+    path.append(root)
+    if root.left is None and root.right is None:
+        allLastNode.append(root)
+        paths.append(path[:]) # Append a copy of the path to paths
+    getPaths(root.left, paths, path, allLastNode)
+    getPaths(root.right, paths, path, allLastNode)
+    path.pop()
+
+def getAllPaths(root: Node):
+    paths = []
+    path = []
+    allLastNode = []
+    getPaths(root, paths, path, allLastNode)
+    paths.append(allLastNode[:])
+    return paths
+
+def search_node_list(root: Node, search_val:int, nodeList: list):
+    if root == None:
+        return
+    if root.val == search_val:
+        nodeList.append(root)
+        return
+    nodeList.append(root)
+    if root.val < search_val:
+        search_node_list(root.right, search_val, nodeList)
+    else:
+        search_node_list(root.left, search_val, nodeList)
+
+def deleteNode(root: Node, key: int) -> Node:
+    if not root:
+        return root
+
+    if key < root.val:
+        root.left = deleteNode(root.left, key)
+    elif key > root.val:
+        root.right = deleteNode(root.right, key)
+    else:
+        # Case 1: Node has no child
+        if not root.left and not root.right:
+            root = None
+        # Case 2: Node has one child
+        elif not root.left:
+            root = root.right
+        elif not root.right:
+            root = root.left
+        # Case 3: Node has two children
+        else:
+            # Find the inorder successor of the node to be deleted
+            temp = root.right
+            while temp.left:
+                temp = temp.left
+            # Replace the node to be deleted with its inorder successor
+            root.val = temp.val
+            # Delete the inorder successor from its original position
+            root.right = deleteNode(root.right, temp.val)
+
+
 # def get_level(n: Node):
 level_gap = {1:200, 2:100, 3:50, 4:25, 5: 12, 6: 6, 7 : 3}
 
