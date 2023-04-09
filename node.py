@@ -10,6 +10,9 @@ class Node:
 
 FRAME_COORDINATE = [950, 655] 
 root = None 
+# def get_level(n: Node):
+level_gap = {1:200, 2:100, 3:50, 4:25, 5: 12, 6: 6, 7 : 3}
+
 
 binary_tree = []  # all the nodes will be stored here
 
@@ -93,37 +96,74 @@ def search_node_list(root: Node, search_val:int, nodeList: list):
     else:
         search_node_list(root.left, search_val, nodeList)
 
+
+
+def minValueNode(node: Node):
+    current = node
+    prev = None
+    while(current.left is not None):
+        prev = current
+        current = current.left
+    if prev:
+        prev.left = None
+    return current
+
+
+
+def defcoords(parent: Node, level: int, root: Node, right: bool):
+    if root == None:
+        return
+    if not right:
+        root.x_pos = parent.x_pos - level_gap[level+1]
+        root.y_pos = parent.y_pos + 100
+    else:
+        root.x_pos = parent.x_pos + level_gap[level+1]
+        root.y_pos = parent.y_pos + 100
+
+    root.level = parent.level + 1
+    defcoords(root, level + 1, root.left, False)
+    defcoords(root, level + 1, root.right, True)
+    pass
+
 def deleteNode(root: Node, key: int) -> Node:
     if not root:
         return root
 
     if key < root.val:
         root.left = deleteNode(root.left, key)
+        return root
     elif key > root.val:
         root.right = deleteNode(root.right, key)
+        return root
     else:
         # Case 1: Node has no child
         if not root.left and not root.right:
-            root = None
+            return None
         # Case 2: Node has one child
         elif not root.left:
-            root = root.right
+            root.right.x_pos = root.x_pos
+            root.right.y_pos = root.y_pos
+            root.right.level = root.level
+            defcoords(root.right, root.right.level, root.right.left, False)
+            defcoords(root.right, root.right.level, root.right.right, True)
+            return root.right
         elif not root.right:
-            root = root.left
+            root.left.x_pos = root.x_pos
+            root.left.y_pos = root.y_pos
+            root.left.level = root.level
+            defcoords(root.left, root.left.level, root.left.left, False)
+            defcoords(root.left, root.left.level, root.left.right, True)
+            return root.left
         # Case 3: Node has two children
         else:
-            # Find the inorder successor of the node to be deleted
-            temp = root.right
-            while temp.left:
-                temp = temp.left
-            # Replace the node to be deleted with its inorder successor
-            root.val = temp.val
-            # Delete the inorder successor from its original position
-            root.right = deleteNode(root.right, temp.val)
+            if root.right.left == None:
+                root.val = root.right.val
+                root.right = root.right.right
+            else:
+                temp = minValueNode(root.right)
+                root.val = temp.val
+            return root
 
-
-# def get_level(n: Node):
-level_gap = {1:200, 2:100, 3:50, 4:25, 5: 12, 6: 6, 7 : 3}
 
 
 prev_coordinates = []
