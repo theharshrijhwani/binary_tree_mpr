@@ -90,6 +90,7 @@ delete_button = Button('Delete', 150, 40, (1000, 280), 3)
 depth_button = Button('Depth',150,40,(1170,140),3)
 clear_button = Button('Clear', 150, 40, (1170,210), 3)
 leaf_nodes_button = Button('Leaf Nodes', 150, 40, (1170,280), 3)
+count_nodes_button = Button('No. of Nodes', 150, 40, (1170, 350), 3)
 
 # traversal heading
 traversal_font = pygame.font.Font(
@@ -182,6 +183,16 @@ def traverse(node_list:list, idx:int, pos_x: int):
     pygame.draw.rect(screen, (33, 33, 33),rect_dimensions)
     pygame.display.update()
        
+def no_of_nodes(node:node.Node, surface: pygame.Surface):
+    result_surface = result_font.render(f"Number of nodes is {len(node.binary_tree)}", True, '#FFFFFF')
+    screen.blit(result_surface, (50, 680))
+    pygame.display.update()
+    pygame.time.delay(2000)
+    rect_dimensions = [50, 680, 750, 750]
+    pygame.draw.rect(screen, (33, 33, 33),rect_dimensions)
+    result_surface = result_font.render('', True, '#FFFFFF')
+    screen.blit(result_surface, (50, 680))
+    pygame.display.update()
 
 def depth(s_node):
     if(s_node==None):
@@ -191,6 +202,7 @@ def depth(s_node):
         pygame.time.delay(2000)
         rect_dimensions = pygame.Rect(50, 680, 700, 700)
         pygame.draw.rect(screen, (33, 33, 33),rect_dimensions)
+    # elif(s_node.binary_tree.index()):
     else:
         result_surface = result_font.render('The depth of node is {}'.format(s_node.level), True, '#FFFFFF')
         screen.blit(result_surface, (50,680))
@@ -259,6 +271,7 @@ while True:
         depth_button.draw()
         clear_button.draw()
         leaf_nodes_button.draw()
+        count_nodes_button.draw()
         if event.type == pygame.MOUSEBUTTONDOWN and insert_button.top_rect.collidepoint(pygame.mouse.get_pos()):
             print('clicked insert')
             print(f'{text_input}')
@@ -353,7 +366,8 @@ while True:
             for ele in allLastNode:
                 draw_bubble(screen, ele.x_pos, ele.y_pos, 20, str(ele.val), '#808000')
                 pygame.time.delay(800)
-            
+        elif event.type == pygame.MOUSEBUTTONDOWN and count_nodes_button.top_rect.collidepoint(pygame.mouse.get_pos()):
+            no_of_nodes(node, result_surface)
 
     # Rendering the Text
     pygame.draw.rect(screen, textbox_color, textbox_rect)
